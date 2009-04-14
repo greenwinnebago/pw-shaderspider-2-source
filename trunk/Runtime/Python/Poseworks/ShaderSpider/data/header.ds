@@ -1,0 +1,585 @@
+const g_sTOOL_NAME = "Materials Preset";
+const g_oFILE = new File( getScriptFileName() );
+const g_sSCRIPT_NAME = String( "%1.%2" ).arg( g_oFILE.baseName() ).arg( g_oFILE.extension() );
+const g_bSHIFT_PRESSED = shiftPressed();
+const g_bCONTROL_PRESSED = ctrlPressed();
+const g_nMARGIN = 5;
+const g_nSPACING = 5;
+const g_nWIDGET_WIDTH = 190;
+const g_sALL = "All";
+const g_sSELECTED = "Selected";
+const g_sABSOLUTE_MAPS = "Replace";
+const g_sIGNORE_MAPS = "Ignore";
+
+const g_oSETTINGS = new DsSettings;
+const g_oUI = new DsInterface;
+const g_oACTIONS = new DsActions;
+
+class DsSettings{
+	var m_oMgr = App.getAppSettingsMgr();
+	function set( sPath, sName, oValue ){
+		m_oMgr.pushPath( sPath );
+		switch( typeof oValue ){
+			case "string":
+				m_oMgr.setStringValue( sName, oValue );
+				break;
+			case "boolean":
+				m_oMgr.setBoolValue( sName, oValue );
+				break;
+			case "number":
+				m_oMgr.setFloatValue( sName, oValue );
+				break;
+			default:
+				break;
+		}
+		m_oMgr.popPath();
+	}
+	
+	function get( sPath, sName, oValue ){
+		var v;
+		m_oMgr.pushPath( sPath );
+		switch( typeof oValue ){
+			case "string":
+				v = m_oMgr.getStringValue( sName, oValue );
+				break;
+			case "boolean":
+				v = m_oMgr.getBoolValue( sName, oValue );
+				break;
+			case "number":
+				v = m_oMgr.getFloatValue( sName, oValue );
+				break;
+			default:
+				break;
+		}
+		m_oMgr.popPath();
+		return v;
+	}
+}
+
+class DsInterface{
+	var m_aBoolNames = new Array;
+	var m_aBoolObjs = new Array;
+	var m_aStrNames = new Array;
+	var m_aStrObjs = new Array;
+	var m_aCmbNames = new Array;
+	var m_aCmbObjs = new Array;
+	
+	var m_wDlg, m_wTabStack;
+	var m_wOptionPage, m_wPrefsPage;
+	var m_wCombGB, m_wPrefsGB;
+	var m_wSrfcsLbl, m_wMpSttngsLbl;
+	var m_wSurfaces, m_wMapSettings;
+	var m_wBtn1, m_wBtn2;
+	var m_wRcrdOnExec, m_wRcrdBtn, m_wRdBtn, m_wDfltBtn;
+	
+	function doCommon(){
+		m_wDlg = new Dialog;
+		m_wTabStack = new TabWidget( m_wDlg );
+		m_wOptionPage = new VGroupBox( m_wTabStack );
+		m_wCombGB = new VGroupBox( m_wOptionPage );
+		m_wSrfcsLbl = new Label( m_wCombGB );
+		m_wSurfaces = new ComboBox( m_wCombGB );
+		m_wSurfaces.insertItem( g_sALL );
+		m_wSurfaces.insertItem( g_sSELECTED );
+		m_aCmbObjs.push( m_wSurfaces );
+		m_aCmbNames.push( 'cbSurfaces' );
+		m_wMpSttngsLbl = new Label( m_wCombGB );
+		m_wMapSettings = new ComboBox( m_wCombGB );
+		m_wMapSettings.insertItem( g_sABSOLUTE_MAPS );
+		m_wMapSettings.insertItem( g_sIGNORE_MAPS );
+		m_aCmbObjs.push( m_wMapSettings );
+		m_aCmbNames.push( 'cbMapSettings' );
+		m_wPrefsPage = new VGroupBox( m_wTabStack );
+		m_wPrefsGB = new VGroupBox( m_wPrefsPage );
+		m_wRcrdOnExec = new CheckBox( m_wPrefsGB );
+		m_aBoolObjs.push( m_wRcrdOnExec );
+		m_aBoolNames.push( 'rcrdOnExec' );
+		setDefaults();
+	}
+	
+	function doDialog(){
+		doCommon();
+		m_wDlg.caption = String( "%1 (%2)" ).arg( g_sTOOL_NAME ).arg( g_sSCRIPT_NAME );
+		m_wDlg.whatsThis =
+			String( "<b>File : </b> %1<br>" ).arg( g_sSCRIPT_NAME ) +
+			String( "<b>Type : </b> %2<br>" ).arg( getScriptType() ) +
+			String( "<b>Size : </b> %3<br>" ).arg( g_oFILE.sizeStr() ) +
+			String( "<b>Version : </b> %4<br>" ).arg( getScriptVersionString() ) +
+			String( "<b>Created : </b> %5<br>" ).arg( g_oFILE.created().toString( "dddd, MMMM d yyyy h:mm ap" ) ) +
+			String( "<b>Modified : </b> %6" ).arg( g_oFILE.lastModified().toString( "dddd, MMMM d yyyy h:mm ap" ) );
+		var dlgLayout = new GridLayout( m_wDlg );
+		dlgLayout.margin = g_nMARGIN;
+		dlgLayout.spacing = g_nSPACING;
+		dlgLayout.addMultiCellWidget( m_wTabStack, 0, 0, 0, 2 );
+		m_wBtn1 = new PushButton( m_wDlg );
+		m_wBtn1.text = "&Accept";
+		m_wBtn1.whatsThis = "<b>" + m_wBtn1.text.right( m_wBtn1.text.length - 1 ) + " :</b><br>"
+			+ "This button executes the script, using the options you have chosen.";
+		m_wDlg.setAcceptButton( m_wBtn1 );
+		m_wBtn2 = new PushButton( m_wDlg );
+		m_wBtn2.text = "&Cancel";
+		m_wBtn2.whatsThis = "<b>" + m_wBtn2.text.right( m_wBtn2.text.length - 1 ) + " :</b><br>"
+			+ "This button cancels the execution of this script.";
+		m_wDlg.setRejectButton( m_wBtn2 );
+		dlgLayout.addWidget( m_wBtn1, 1, 1 );
+		dlgLayout.addWidget( m_wBtn2, 1, 2 );
+		m_wOptionPage.whatsThis = "<b>Options :</b><br>"
+			+ "This tab allows you to change options that control how this preset is applied.";
+		m_wOptionPage.flat = true;
+		m_wOptionPage.insideMargin = g_nMARGIN;
+		m_wOptionPage.insideSpacing = g_nSPACING;
+		m_wCombGB.columns = 2;
+		m_wSrfcsLbl.text = "Surfaces :";
+		m_wSrfcsLbl.alignment = m_wSrfcsLbl.AlignRight;
+		m_wSrfcsLbl.whatsThis = "<b>" + m_wSrfcsLbl.text + "</b><br>"
+			+ "This option allows you to choose which surfaces you want to modify with this preset."
+			+ "<ul>"
+			+ "<li><b>" + g_sALL + "</b> - Apply this preset to all applicable surfaces of the selected object(s).</li>"
+			+ "<li><b>" + g_sSELECTED + "</b> - Only apply this preset to selected surface(s) of the selected object(s), respectively, from the Surface List in the Surfaces Tab.</li>"
+			+ "</ul>";
+		m_wSurfaces.minWidth = g_nWIDGET_WIDTH;
+		m_wSurfaces.whatsThis = m_wSrfcsLbl.whatsThis;
+		m_wMpSttngsLbl.text = "Map Settings :";
+		m_wMpSttngsLbl.alignment = m_wMpSttngsLbl.AlignRight;
+		m_wMpSttngsLbl.whatsThis = "<b>" + m_wMpSttngsLbl.text + "</b><br>"
+			+ "This option allows you to choose how you want the map settings in this preset applied."
+			+ "<ul>"
+			+ "<li><b>" + g_sABSOLUTE_MAPS + "</b> - Apply the settings contained in this preset, exactly. For instance, this preset may contain a setting that replaces a mapped property with no map.</li>"
+			+ "<li><b>" + g_sIGNORE_MAPS + "</b> - Apply the settings contained in this preset, but do not change whether a map is applied, or which map may be applied.</li>"
+			+ "</ul>";
+		m_wMapSettings.minWidth = g_nWIDGET_WIDTH;
+		m_wMapSettings.whatsThis = m_wMpSttngsLbl.whatsThis;
+		m_wTabStack.addTab( m_wOptionPage, "Options" );
+		m_wPrefsPage.whatsThis = "<b>Preferences :</b><br>"
+			+ "This tab allows you to change your preferences for how this preset type is applied.";
+		m_wPrefsPage.flat = true;
+		m_wPrefsPage.insideMargin = g_nMARGIN;
+		m_wPrefsPage.insideSpacing = g_nSPACING;
+		m_wPrefsGB.margin = g_nMARGIN;
+		m_wPrefsGB.spacing = g_nSPACING;
+		m_wRcrdOnExec.text = "Set &Preferred Options on " + m_wBtn1.text.right( m_wBtn1.text.length - 1 );
+		m_wRcrdOnExec.whatsThis = "<b>" + m_wRcrdOnExec.text + " :</b><br>"
+			+ "If this box is checked when you press the " + m_wBtn1.text.right( m_wBtn1.text.length - 1 ) + " button, all of your options are recorded. "
+			+ "Recorded options include the state of this box as well, so unless this box is unchecked later, "
+			+ "the recorded options will continue to update with each execution.";
+		m_wRcrdBtn = new PushButton( m_wPrefsGB );
+		m_wRcrdBtn.text = "&Set Preferred Options";
+		m_wRcrdBtn.whatsThis = "<b>" + m_wRcrdBtn.text + " :</b><br>"
+			+ "This button records the preferred options for this preset type, for subsequent use.";
+		connect( m_wRcrdBtn, "pressed()", setOptions );
+		m_wRdBtn = new PushButton( m_wPrefsGB );
+		m_wRdBtn.text = "&Read Preferred Options";
+		m_wRdBtn.whatsThis = "<b>" + m_wRdBtn.text + " :</b><br>"
+			+ "This button retrieves the preferred options for this preset type, from the previous recording.";
+		connect( m_wRdBtn, "pressed()", getOptions );
+		m_wDfltBtn = new PushButton( m_wPrefsGB );
+		m_wDfltBtn.text = "Restore &Default Options";
+		m_wDfltBtn.whatsThis = "<b>" + m_wDfltBtn.text + " :</b><br>"
+			+ "This button restores the default values, contained within this preset, to the available options.";
+		connect( m_wDfltBtn, "pressed()", setDefaults );
+		var notesGB = new VGroupBox( m_wPrefsPage );
+		notesGB.title = "Notes :";
+		notesGB.margin = g_nMARGIN;
+		notesGB.spacing = g_nSPACING;
+		notesGB.minWidth = g_nWIDGET_WIDTH + 100;
+		var keyLbl = new Label( notesGB );
+		keyLbl.text = "<ul>"
+			+ "<li><b>Click</b> : Execute script with default options.</li>"
+			+ "<li><b>Click + Shift</b> : Execute with preferred options.</li>"
+			+ "<li><b>Click + Ctrl/Cmd</b> : Launch this dialog.</li>"
+			+ "</ul>";
+		m_wTabStack.addTab( m_wPrefsPage, "Preferences" );
+		m_wDlg.maxWidth = m_wDlg.minWidth;
+		m_wDlg.maxHeight = m_wDlg.minHeight;
+		getOptions();
+		if( m_wDlg.exec() ){
+			if( m_wRcrdOnExec.checked ){ setOptions(); }
+			g_oACTIONS.begin();
+		}
+	}
+	
+	function doNoDialog(){
+		doCommon();
+		if( g_bSHIFT_PRESSED ){ getOptions(); }
+		g_oACTIONS.begin();
+	}
+	
+	function setDefaults(){
+		for( var i = 0; i < m_wSurfaces.count; i++ ){
+			if( m_wSurfaces.text( i ) == g_sALL ){
+				m_wSurfaces.currentItem = i;
+				break;
+			}
+			m_wSurfaces.currentItem = 0;
+		}
+		for( var i = 0; i < m_wMapSettings.count; i++ ){
+			if( m_wMapSettings.text( i ) == g_sABSOLUTE_MAPS ){
+				m_wMapSettings.currentItem = i;
+				break;
+			}
+			m_wMapSettings.currentItem = 0;
+		}
+		m_wRcrdOnExec.checked = false;
+	}
+	
+	function getOptions(){
+		for( var i = 0; i < m_aBoolObjs.length; i++ ){
+			m_aBoolObjs[ i ].checked = g_oSETTINGS.get( g_oACTIONS.stripSpaces( g_sTOOL_NAME ), m_aBoolNames[ i ], m_aBoolObjs[ i ].checked );
+		}
+		for( var i = 0; i < m_aStrObjs.length; i++ ){
+			m_aStrObjs[ i ].text = g_oSETTINGS.get( g_oACTIONS.stripSpaces( g_sTOOL_NAME ), m_aStrNames[ i ], m_aStrObjs[ i ].text );
+		}
+		for( var i = 0; i < m_aCmbObjs.length; i++ ){
+			var tStr = g_oSETTINGS.get( g_oACTIONS.stripSpaces( g_sTOOL_NAME ), m_aCmbNames[ i ], m_aCmbObjs[ i ].currentText );
+			for( var j = 0; j < m_aCmbObjs[ i ].count; j++ ){
+				if( m_aCmbObjs[ i ].text( j ) == tStr ){
+					m_aCmbObjs[ i ].currentItem = j;
+					break;
+				}
+			}
+		}
+	}
+	
+	function setOptions(){
+		for( var i = 0; i < m_aBoolObjs.length; i++ ){
+			g_oSETTINGS.set( g_oACTIONS.stripSpaces( g_sTOOL_NAME ), m_aBoolNames[ i ], m_aBoolObjs[ i ].checked );
+		}
+		for( var i = 0; i < m_aStrObjs.length; i++ ){
+			g_oSETTINGS.set( g_oACTIONS.stripSpaces( g_sTOOL_NAME ), m_aStrNames[ i ], m_aStrObjs[ i ].text );
+		}
+		for( var i = 0; i < m_aCmbObjs.length; i++ ){
+			g_oSETTINGS.set( g_oACTIONS.stripSpaces( g_sTOOL_NAME ), m_aCmbNames[ i ], m_aCmbObjs[ i ].currentText );
+		}
+	}
+	
+	function getSurfaces(){ return m_wSurfaces.currentText; }
+	function getMapSettings(){ return m_wMapSettings.currentText; }
+}
+
+class DsActions{
+	var m_nStartTime = Scene.getTime();
+	var m_aNodes = new Array;
+	var m_aMaterials = new Array;
+	var m_aNewMaterials = new Array;
+	
+	var m_oElement;
+	var m_sMaterialType;
+	
+	var m_bAskImage = true;
+	var m_aImagePaths = new Array;
+	
+	function addToArray( aToCheck, oToCheck ){
+		if( isInArray( aToCheck, oToCheck ) < 0 ){
+			aToCheck.push( oToCheck );
+		}
+		return aToCheck;
+	}
+	
+	function isInArray( aToCheck, oToCheck ){
+		if( aToCheck ){
+			for( var i = 0; i < aToCheck.length; i++ ){
+				if( aToCheck[ i ] == oToCheck ){
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	function isInArrayByName( aToCheck, oToCheck ){
+		if( aToCheck ){
+			for( var i = 0; i < aToCheck.length; i++ ){
+				if( String( aToCheck[ i ].name ) == String( oToCheck.name ) ){
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	function stripSpaces( sString ){
+		var rePattern = RegExp( " " );
+		rePattern.global = true;
+		return sString.replace( rePattern, "" );
+	}
+	
+	function processMaterials( oNode, aMaterials ){
+		var oObject = oNode.getObject();
+		if( oObject != undefined ){
+			var nShapes = oObject.getNumShapes();
+			for( var s = 0; s < nShapes; s++ ){
+				var oShape = oObject.getShape( s );
+				if( oShape != undefined ){
+					var nMaterials = oShape.getNumMaterials();
+					for( var m = 0; m < nMaterials; m++ ){
+						var oMaterial = oShape.getMaterial( m );
+						if( isInArrayByName( aMaterials, oMaterial ) != -1 ){
+							buildMaterial( oShape, oMaterial );
+						}
+					}
+				}
+			}
+		}
+		var nNodes = oNode.getNumNodeChildren();
+		for( var n = 0; n < nNodes; n++ ){
+			processMaterials( oNode.getNodeChild( n ), aMaterials );
+		}
+	}
+	
+	function buildMaterial( oShape, oMaterial ){
+		var bSwap = false;
+		var oNewMaterial;
+		var nIndex = isInArrayByName( m_aNewMaterials, oMaterial );
+		if( nIndex < 0 ){
+			oNewMaterial = new DzDefaultMaterial;
+			oNewMaterial.setName( oMaterial.name );
+			oNewMaterial.setLabel( oMaterial.getLabel() );
+			m_aNewMaterials = addToArray( m_aNewMaterials, oNewMaterial );
+			bSwap = true;
+		}
+		else{
+			oNewMaterial = m_aNewMaterials[ nIndex ];
+			bSwap = true;
+		}
+		if( bSwap ){
+			oNewMaterial.copyFrom( oMaterial );
+			oShape.replaceMaterial( oMaterial, oNewMaterial );
+		}
+		else{
+			print( String( "Error: %1, DsActions::buildMaterial( %2, %3 );" ).arg( g_sSCRIPT_NAME ).arg( oShape.name ).arg( oMaterial.getLabel() ) );
+		}
+		m_oElement = oNewMaterial;
+	}
+	
+	function prepareMaterial(){
+		var bBuildMaterial = false;
+		if( m_oElement.className() != m_sMaterialType ){
+			bBuildMaterial = true;
+		}
+		else if( m_sDefinitionFile != undefined ){
+			if( m_oElement.inherits( "DzShaderMaterial" ) &&
+			m_sDefinitionFile != m_oElement.getDefinitionFile() ){
+				bBuildMaterial = true;
+			}
+		}
+		if( bBuildMaterial ){
+			for( var n = 0; n < m_aNodes.length; n ++ ){
+				processMaterials( m_aNodes[ n ], [ m_oElement ] );
+			}
+		}
+	}
+	
+	function collectMaterials( oNode, bSelectedOnly, bRecurse ){
+		var oObject = oNode.getObject();
+		if( oObject != undefined ){
+			var nShapes = oObject.getNumShapes();
+			for( var s = 0; s < nShapes; s++ ){
+				var oShape = oObject.getShape( s );
+				if( oShape != undefined ){
+					var nMaterials = bSelectedOnly ? oShape.getNumSelectedMaterials() : oShape.getNumMaterials();
+					for( var m = 0; m < nMaterials; m++ ){
+						var oMaterial = bSelectedOnly ? oShape.getSelectedMaterial( m ) : oShape.getMaterial( m );
+						m_aMaterials = addToArray( m_aMaterials, oMaterial );
+					}
+				}
+			}
+		}
+		if( bRecurse ){
+			var nNodes = oNode.getNumNodeChildren();
+			for( var n = 0; n < nNodes; n++ ){
+				if( oNode.getNodeChild( n ).className() == "DzBone" ){
+					collectMaterials( oNode.getNodeChild( n ), bSelectedOnly, bRecurse );
+				}
+			}
+		}
+	}
+	
+	function collectNodes( bSelected, bRecurse, bFromRoot ){
+		var aRootNodes = new Array;
+		var nNodes = bSelected ? Scene.getNumSelectedNodes() : Scene.getNumNodes();
+		if( bSelected && nNodes < 1 ){
+			MessageBox.warning( "This action requires an item within the scene to be selected.",
+			"Selection Error", "OK", "" );
+		}
+		var oNode;
+		for( var n = 0; n < nNodes; n++ ){
+			oNode = bSelected ? Scene.getSelectedNode( n ) : Scene.getNode( n );
+			if( oNode == undefined ){
+				continue;
+			}
+			
+			if( oNode.inherits( "DzBone" ) ){
+				if( bFromRoot ){
+					oNode = oNode.getSkeleton();
+				}
+				else if( bRecurse ){
+					var oTopNode = oNode;
+					while( !oTopNode.inherits( "DzSkeleton" ) ){
+						oTopNode = oTopNode.getNodeParent();
+						if( oTopNode.isSelected() ){
+							oNode = oTopNode;
+						}
+					}
+				}
+			}
+			aRootNodes = addToArray( aRootNodes, oNode );
+		}
+		return aRootNodes;
+	}
+	
+	function checkAnimationRange( nMaxTime ){
+		var oAnimRange = Scene.getAnimRange();
+		var oPlayRange = Scene.getPlayRange();
+		if( m_nStartTime + nMaxTime <= oAnimRange.end && m_nStartTime + nMaxTime <= oPlayRange.end )
+			return;
+		var sMessage = String( "This %1 contains information for frames beyond the length of your current\n" +
+				"timeline. Would you like to add frames to the timeline in order to import the entire file?" )
+				.arg( g_sTOOL_NAME );
+		if( MessageBox.question( sMessage, "Animation Range : Total Frames", "&Yes", "&No" ) == 1 )
+			return;
+		if( m_nStartTime + nMaxTime > oAnimRange.end ){
+			oAnimRange.end = m_nStartTime + nMaxTime;
+			Scene.setAnimRange( oAnimRange );
+		}
+		if( m_nStartTime + nMaxTime > oPlayRange.end ){
+			oPlayRange.end = m_nStartTime + nMaxTime;
+			Scene.setPlayRange( oPlayRange );
+		}
+	}
+	
+	function getImage( sMapFile ){
+		if( !sMapFile )
+			return;
+		var sPath;
+		var oFile = new File( sMapFile );
+		if( !oFile.exists() ){
+			var oContentMgr = App.getContentMgr();
+			var sAbsMapFile = oContentMgr.getAbsolutePath( sMapFile, true );
+			sPath = sAbsMapFile;
+			userFindFile:
+			if( m_bAskImage && !sPath ){
+				for( var sRelPath in m_aImagePaths ){
+					if( sRelPath == sMapFile ){
+						sPath = m_aImagePaths[ sRelPath ];
+						break userFindFile;
+					}
+				}
+				oFile = new File( sAbsMapFile );
+				var sShortName = String( "%1.%2" ).arg( oFile.baseName() ).arg( oFile.extension() );
+				var sMessage = String( "Could not find file: %1" ).arg( sShortName );
+				var nResult = MessageBox.question( sMessage, "Unable to locate file", "&Locate...", "&Skip", "Stop &Asking" );
+				if( nResult == 1 )
+					return undefined;
+				else if( nResult == 2 ){
+					m_bAskImage = false;
+					return undefined;
+				}
+				var sInitPath = String( "%1/%2" ).arg( App.getImportMgr().getImportPath() ).arg( sShortName );
+				sPath = FileDialog.doImageDialog( true, sInitPath );
+				if( sPath )
+					m_aImagePaths[ sMapFile ] = sPath;
+			}
+			if( !sPath )
+				return undefined;
+		}
+		else
+			sPath = sMapFile;
+		return App.getImageMgr().getImage( sPath );
+	}
+	
+	function setPropertyNumeric( oProperty, aKeys ){
+		if( aKeys.length == 1 ){
+			oProperty.deleteAllKeys();
+			oProperty.setValue( 0, aKeys[ 0 ] );
+			return true;
+		}
+		else if( oProperty.canAnimate() ){
+			for( var i = 0; i < aKeys.length; i += 2 )
+				oProperty.setValue( aKeys[ i ] + m_nStartTime, aKeys[ i + 1 ] );
+			return true;
+		}
+		return false;
+	}
+	
+	function setPropertyColor( oProperty, aKeys ){
+		var oColor;
+		if( aKeys.length == 1 ){
+			oProperty.deleteAllKeys();
+			oColor = new Color( aKeys[ 0 ][ 0 ], aKeys[ 0 ][ 1 ], aKeys[ 0 ][ 2 ] );
+			oProperty.setColorValue( 0, oColor );
+			return true;
+		}
+		else if( oProperty.canAnimate() ){
+			for( var i = 0; i < aKeys.length; i += 2 )
+				oColor = new Color( aKeys[ i + 1 ][ 0 ], aKeys[ i + 1 ][ 1 ], aKeys[ i + 1 ][ 2 ] );
+				oProperty.setColorValue( aKeys[ i ] + m_nStartTime, oColor );
+			return true;
+		}
+		return false;
+	}
+	
+	function setPropertyMap( oProperty, sMapFile ){
+		if( !oProperty.isMappable() )
+			return;
+		if( g_oUI.getMapSettings() == g_sABSOLUTE_MAPS )
+			oProperty.clearMap();
+		if( sMapFile && g_oUI.getMapSettings() != g_sIGNORE_MAPS ){
+			var oImage = getImage( sMapFile );
+			oProperty.setMap( oImage );
+		}
+	}
+	
+	function setNumericProperty( sPropertyName, aKeys, sMapFile ){
+		var oProperty = m_oElement.findProperty( sPropertyName );
+		if( !oProperty || !oProperty.inherits( "DzNumericProperty" ) )
+			return;
+		if( !setPropertyNumeric( oProperty, aKeys ) )
+			return;
+		setPropertyMap( oProperty, sMapFile );
+	}
+	
+	function setColorProperty( sPropertyName, aKeys, sMapFile ){
+		var oProperty = m_oElement.findProperty( sPropertyName );
+		if( !oProperty || !oProperty.inherits( "DzColorProperty" ) )
+			return;
+		if( !setPropertyColor( oProperty, aKeys ) )
+			return;
+		setPropertyMap( oProperty, sMapFile );
+	}
+	
+	function setImageProperty( sPropertyName, sMapFile ){
+		var oProperty = m_oElement.findProperty( sPropertyName );
+		if( !oProperty || !oProperty.inherits( "DzImageProperty" ) )
+			return;
+		var oImage = getImage( sMapFile );
+		oProperty.setValue( oImage );
+	}
+	
+	function begin(){
+		var bSelected = false;
+		var bRoot = false;
+		if( g_oUI.getSurfaces() == g_sSELECTED ){
+			bSelected = true;
+			bRoot = true;
+		}
+		if( g_oUI.getSurfaces() == g_sALL ){
+			bRoot = true;
+		}
+		
+		setBusyCursor();
+		m_aNodes = collectNodes( true, true, true );
+		
+		beginUndo();
+		for( var i = 0; i < m_aNodes.length; i++ ){
+			collectMaterials( m_aNodes[ i ], bSelected, bRoot );
+			for( var m = 0; m < m_aMaterials.length; m++ ){
+				setMaterialProperties( m_aMaterials[ m ] );
+			}
+		}
+		acceptUndo( String( "\"%1\"" ).arg( g_sSCRIPT_NAME ) );
+		clearBusyCursor();
+	}
+	
+	function setMaterialProperties( oMaterial ){
+		m_oElement = oMaterial;
+		switch( m_oElement.name ){

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<WidgetList XmlFile="C:/Program Files/Curious Labs/Poser 6/Runtime/Python/PoseWorks/ShaderSpider/Temp/askStitchNode.xml" >
+
+	<PSDFile name="./runtime/ui/26000_utility.psd" />
+
+	<Widget name="Background" command="0" pictRes="26076" behaviorProcID="4" left="-10" top="-10" right="16" bottom="16" persistBetweenRooms="1" rect.left="-10" rect.top="-10" rect.right="470" rect.bottom="390" pinID="1" pinTop="3" pinLeft="1" pinBottom="4" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="topLeftDlgBorder" command="0" pictRes="26084" behaviorProcID="4" left="0" top="0" right="20" bottom="30" persistBetweenRooms="1" rect.left="0" rect.top="0" rect.right="20" rect.bottom="30" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+
+	<Widget name="topCenterDlgBorder" command="0" pictRes="26083" behaviorProcID="4" left="20" top="0" right="60" bottom="27" persistBetweenRooms="1" rect.left="20" rect.top="0" rect.right="560" rect.bottom="27" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="topRightDlgBorder" command="0" pictRes="26082" behaviorProcID="4" left="-20" top="0" right="0" bottom="30" persistBetweenRooms="1" rect.left="-20" rect.top="0" rect.right="0" rect.bottom="30" pinID="1" pinTop="3" pinLeft="2" pinBottom="3" pinRight="2" color="-1" fadeMax="0" />
+
+	<Widget name="leftDlgBorder" command="0" pictRes="26081" behaviorProcID="4" left="0" top="30" right="14" bottom="-30" persistBetweenRooms="1" rect.left="0" rect.top="80" rect.right="14" rect.bottom="420" pinID="1" pinTop="3" pinLeft="1" pinBottom="4" pinRight="1" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="rightDlgBorder" command="0" pictRes="26080" behaviorProcID="4" left="-14" top="30" right="0" bottom="-30" persistBetweenRooms="1" rect.left="486" rect.top="80" rect.right="500" rect.bottom="420" pinID="1" pinTop="3" pinLeft="2" pinBottom="4" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="bottomLeftDlgBorder" command="0" pictRes="26079" behaviorProcID="4" left="0" top="-40" right="20" bottom="0" persistBetweenRooms="1" rect.left="0" rect.top="410" rect.right="20" rect.bottom="450" pinID="1" pinTop="4" pinLeft="1" pinBottom="4" pinRight="1" color="-1" fadeMax="0" />
+
+	<Widget name="bottomMiddleDlgBorder" command="0" pictRes="26078" behaviorProcID="4" left="20" top="-35" right="-20" bottom="0" persistBetweenRooms="1" rect.left="20" rect.top="415" rect.right="480" rect.bottom="450" pinID="1" pinTop="4" pinLeft="1" pinBottom="4" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="bottomRightDlgBorder" command="0" pictRes="26077" behaviorProcID="4" left="-20" top="-40" right="0" bottom="0" persistBetweenRooms="1" rect.left="480" rect.top="410" rect.right="500" rect.bottom="450" pinID="1" pinTop="4" pinLeft="2" pinBottom="4" pinRight="2" color="-1" fadeMax="0" />
+
+<Widget name="topMsg" command="0" groupID="23" widgetProcID="3" preliteAction="6" left="80" top="40" right="650" bottom="400" rect.left="80" rect.top="40" rect.right="650" rect.bottom="400" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="18" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+<Widget name="botMsg" command="0" groupID="23" widgetProcID="3" preliteAction="6" left="35" top="397" right="605" bottom="757" rect.left="35" rect.top="397" rect.right="605" rect.bottom="757" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+<Widget name="botMsg2" command="0" groupID="23" widgetProcID="3" preliteAction="6" left="35" top="415" right="605" bottom="775" rect.left="35" rect.top="415" rect.right="605" rect.bottom="775" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+<Widget name="Diffuse_Color" command="1001" groupID="23" widgetProcID="3" preliteAction="6" left="35" top="80" right="151" bottom="101" rect.left="35" rect.top="80" rect.right="151" rect.bottom="101" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+<Widget name="Diffuse_ColorB" command="10001" groupID="4" pictRes="26019" behaviorProcID="1" widgetProcID="23" preliteAction="1" left="175" top="80" right="235" bottom="100" persistBetweenRooms="1" rect.left="175" rect.top="80" rect.right="235" rect.bottom="100" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-16777216" fadeMax="0" isStringID="1" textColor="-16777216" textSize="16" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" padding="12" leftPillowID="-1" middlePillowID="-1" rightPillowID="-1" leftButtonID="26020" middleButtonID="26019" rightButtonID="26018" widgetText="0:2" useAlpha="0" />
+
+<Widget name="Diffuse_Value" command="1001" groupID="23" widgetProcID="3" preliteAction="6" left="35" top="100" right="151" bottom="121" rect.left="35" rect.top="100" rect.right="151" rect.bottom="121" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+<Widget name="Diffuse_ValueB" command="10002" groupID="4" pictRes="26019" behaviorProcID="1" widgetProcID="23" preliteAction="1" left="175" top="100" right="235" bottom="120" persistBetweenRooms="1" rect.left="175" rect.top="100" rect.right="235" rect.bottom="120" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-16777216" fadeMax="0" isStringID="1" textColor="-16777216" textSize="16" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" padding="12" leftPillowID="-1" middlePillowID="-1" rightPillowID="-1" leftButtonID="26020" middleButtonID="26019" rightButtonID="26018" widgetText="0:2" useAlpha="0" />
+
+<Widget name="okBtn" command="7001" groupID="4" pictRes="26016" behaviorProcID="1" preliteAction="1" left="550" top="453" right="608" bottom="472" persistBetweenRooms="1" rect.left="550" rect.top="453" rect.right="608" rect.bottom="472" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+
+<Widget name="cancelBtn" command="7002" groupID="4" pictRes="26017" behaviorProcID="1" preliteAction="1" left="480" top="453" right="538" bottom="472" persistBetweenRooms="1" rect.left="480" rect.top="453" rect.right="538" rect.bottom="472" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+
+	<StringResIDs major="0" />
+
+</WidgetList >
