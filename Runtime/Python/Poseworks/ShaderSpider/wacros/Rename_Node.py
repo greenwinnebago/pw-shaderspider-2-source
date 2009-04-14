@@ -1,10 +1,5 @@
-###########################################################
-# Developed by PoseWorks (http://www.poseworks.com)
-# May not be modified or transferred without permission.
-###########################################################
-
 import poser
-#import pre as re
+
 import re
 
 def AskNode(shaderTree):
