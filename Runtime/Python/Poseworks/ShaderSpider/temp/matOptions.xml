@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<WidgetList XmlFile="C:/Program Files/Smith Micro/Poser Pro/Runtime/Python/PoseWorks/ShaderSpider/Temp/matOptions.xml" >
+
+	<PSDFile name="./runtime/ui/26000_utility.psd" />
+
+	<Widget name="Background" command="0" pictRes="26076" behaviorProcID="4" left="-10" top="-10" right="16" bottom="16" persistBetweenRooms="1" rect.left="-10" rect.top="-10" rect.right="470" rect.bottom="390" pinID="1" pinTop="3" pinLeft="1" pinBottom="4" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="topLeftDlgBorder" command="0" pictRes="26084" behaviorProcID="4" left="0" top="0" right="20" bottom="30" persistBetweenRooms="1" rect.left="0" rect.top="0" rect.right="20" rect.bottom="30" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+
+	<Widget name="topCenterDlgBorder" command="0" pictRes="26083" behaviorProcID="4" left="20" top="0" right="60" bottom="27" persistBetweenRooms="1" rect.left="20" rect.top="0" rect.right="560" rect.bottom="27" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="topRightDlgBorder" command="0" pictRes="26082" behaviorProcID="4" left="-20" top="0" right="0" bottom="30" persistBetweenRooms="1" rect.left="-20" rect.top="0" rect.right="0" rect.bottom="30" pinID="1" pinTop="3" pinLeft="2" pinBottom="3" pinRight="2" color="-1" fadeMax="0" />
+
+	<Widget name="leftDlgBorder" command="0" pictRes="26081" behaviorProcID="4" left="0" top="30" right="14" bottom="-30" persistBetweenRooms="1" rect.left="0" rect.top="80" rect.right="14" rect.bottom="420" pinID="1" pinTop="3" pinLeft="1" pinBottom="4" pinRight="1" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="rightDlgBorder" command="0" pictRes="26080" behaviorProcID="4" left="-14" top="30" right="0" bottom="-30" persistBetweenRooms="1" rect.left="486" rect.top="80" rect.right="500" rect.bottom="420" pinID="1" pinTop="3" pinLeft="2" pinBottom="4" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="bottomLeftDlgBorder" command="0" pictRes="26079" behaviorProcID="4" left="0" top="-40" right="20" bottom="0" persistBetweenRooms="1" rect.left="0" rect.top="410" rect.right="20" rect.bottom="450" pinID="1" pinTop="4" pinLeft="1" pinBottom="4" pinRight="1" color="-1" fadeMax="0" />
+
+	<Widget name="bottomMiddleDlgBorder" command="0" pictRes="26078" behaviorProcID="4" left="20" top="-35" right="-20" bottom="0" persistBetweenRooms="1" rect.left="20" rect.top="415" rect.right="480" rect.bottom="450" pinID="1" pinTop="4" pinLeft="1" pinBottom="4" pinRight="2" color="-1" fadeMax="0" tile="1" />
+
+	<Widget name="bottomRightDlgBorder" command="0" pictRes="26077" behaviorProcID="4" left="-20" top="-40" right="0" bottom="0" persistBetweenRooms="1" rect.left="480" rect.top="410" rect.right="500" rect.bottom="450" pinID="1" pinTop="4" pinLeft="2" pinBottom="4" pinRight="2" color="-1" fadeMax="0" />
+
+	<Widget name="TextBox" command="0" groupID="23" widgetProcID="3" preliteAction="6" left="90" top="40" right="206" bottom="61" rect.left="90" rect.top="40" rect.right="206" rect.bottom="61" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="18" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+
+	<Widget name="Create PNG thumbnails" command="10002" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="80" right="77" bottom="98" useRectClick="1" rect.left="60" rect.top="80" rect.right="77" rect.bottom="98" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Create PNG thumbnailsMessage" command="10002" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="82" right="186" bottom="101" rect.left="70" rect.top="90" rect.right="186" rect.bottom="111" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+	<Widget name="Create Poser 4 PZ2" command="10003" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="101" right="77" bottom="119" useRectClick="1" rect.left="60" rect.top="101" rect.right="77" rect.bottom="119" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Create Poser 4 PZ2Message" command="10003" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="103" right="186" bottom="122" rect.left="70" rect.top="111" rect.right="186" rect.bottom="132" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+	<Widget name="Create Poser Pro PZ2" command="10004" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="122" right="77" bottom="140" useRectClick="1" rect.left="60" rect.top="122" rect.right="77" rect.bottom="140" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Create Poser Pro PZ2Message" command="10004" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="124" right="186" bottom="143" rect.left="70" rect.top="132" rect.right="186" rect.bottom="153" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+	<Widget name="Create Poser 5 PZ2" command="10005" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="143" right="77" bottom="161" useRectClick="1" rect.left="60" rect.top="143" rect.right="77" rect.bottom="161" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Create Poser 5 PZ2Message" command="10005" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="145" right="186" bottom="164" rect.left="70" rect.top="153" rect.right="186" rect.bottom="174" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+	<Widget name="Create Poser 6 MC6" command="10006" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="164" right="77" bottom="182" useRectClick="1" rect.left="60" rect.top="164" rect.right="77" rect.bottom="182" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Create Poser 6 MC6Message" command="10006" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="166" right="186" bottom="185" rect.left="70" rect.top="174" rect.right="186" rect.bottom="195" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+	<Widget name="Create DAZ|Studio DS" command="10007" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="185" right="77" bottom="203" useRectClick="1" rect.left="60" rect.top="185" rect.right="77" rect.bottom="203" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Create DAZ|Studio DSMessage" command="10007" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="187" right="186" bottom="206" rect.left="70" rect.top="195" rect.right="186" rect.bottom="216" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+	<Widget name="Clean up file paths" command="10008" groupID="23" pictRes="26105" hiliteRes="26104" behaviorProcID="3" preliteAction="1" left="60" top="206" right="77" bottom="224" useRectClick="1" rect.left="60" rect.top="206" rect.right="77" rect.bottom="224" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+	<Widget name="Clean up file pathsMessage" command="10008" groupID="23" widgetProcID="3" preliteAction="6" left="78" top="208" right="186" bottom="227" rect.left="70" rect.top="216" rect.right="186" rect.bottom="237" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" isStringID="1" textColor="-16777216" textSize="14" textAlign="0" textFont="0" textItalic="0" textAntialiased="1" textOffsetX="0" textOffsetY="0" widgetText="0:2" />
+
+<Widget name="okBtn" command="7001" groupID="4" pictRes="26016" behaviorProcID="1" preliteAction="1" left="230" top="273" right="288" bottom="292" persistBetweenRooms="1" rect.left="230" rect.top="273" rect.right="288" rect.bottom="292" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+
+<Widget name="cancelBtn" command="7002" groupID="4" pictRes="26017" behaviorProcID="1" preliteAction="1" left="160" top="273" right="218" bottom="292" persistBetweenRooms="1" rect.left="160" rect.top="273" rect.right="218" rect.bottom="292" pinID="1" pinTop="3" pinLeft="1" pinBottom="3" pinRight="1" color="-1" fadeMax="0" />
+
+	<StringResIDs major="0" />
+
+</WidgetList >
