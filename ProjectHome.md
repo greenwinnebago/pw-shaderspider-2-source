@@ -1,0 +1,1 @@
+Open source version of the popular material room helper plugin for Poser.
